@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi CV Interactivo - Bitácora</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- html2pdf.js CDN para la descarga directa del PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Encabezado superior estático -->
+  <header class="app-header">
+    <div class="header-content">
+      <div class="brand">
+        <i class="fa-solid fa-book-bookmark text-amber-500"></i>
+        <span>Bitácora CV</span>
+      </div>
+      <button id="download-pdf-btn" class="btn-primary">
+        <i class="fa-solid fa-file-arrow-down"></i>
+        <span>Descargar PDF (Harvard)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Área Principal: Fondo de Escritorio con Madera Realista -->
+  <main class="desk-container">
+    <div class="notebook-wrapper">
+
+      <!-- Pestañas Marcapáginas Adosadas al Borde Derecho Externo -->
+      <nav class="bookmark-tabs" aria-label="Navegación de secciones">
+        <button class="tab-btn tab-perfil active" data-spread="0">
+          <span class="tab-text">Perfil</span>
+        </button>
+        <button class="tab-btn tab-exp" data-spread="1">
+          <span class="tab-text">Experiencia</span>
+        </button>
+        <button class="tab-btn tab-proy" data-spread="2">
+          <span class="tab-text">Proyectos</span>
+        </button>
+        <button class="tab-btn tab-skills" data-spread="3">
+          <span class="tab-text">Skills</span>
+        </button>
+        <button class="tab-btn tab-contacto" data-spread="4">
+          <span class="tab-text">Contacto</span>
+        </button>
+      </nav>
+
+      <!-- El Cuaderno 3D -->
+      <article class="notebook">
+        <!-- Espiral central de metal -->
+        <div class="spiral-binding">
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+        </div>
+
+        <!-- PÁGINA IZQUIERDA -->
+        <section class="page page-left" id="page-left-content">
+          <!-- Contenido dinámico inyectado desde JavaScript -->
+        </section>
+
+        <!-- PÁGINA DERECHA -->
+        <section class="page page-right" id="page-right-content">
+          <!-- Contenido dinámico inyectado desde JavaScript -->
+        </section>
+      </article>
+
+      <!-- Barra de Navegación Inferior (Anterior / Siguiente / Páginas) -->
+      <footer class="notebook-nav">
+        <button id="prev-btn" class="nav-btn" title="Página Anterior (Flecha Izquierda)">
+          <i class="fa-solid fa-chevron-left"></i>
+          <span>Anterior</span>
+        </button>
+
+        <div class="page-indicator">
+          <span id="page-counter">Páginas 1-2 de 10</span>
+        </div>
+
+        <button id="next-btn" class="nav-btn" title="Página Siguiente (Flecha Derecha)">
+          <span>Siguiente</span>
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </footer>
+    </div>
+  </main>
+
+  <!-- Toast Notification para confirmaciones -->
+  <div id="toast" class="toast hidden">
+    <i class="fa-solid fa-check-circle"></i>
+    <span id="toast-message">Notificación</span>
+  </div>
+
+  <!-- PLANTILLA OCULTA: CV Formato Harvard (Utilizado exclusivamente para exportar PDF) -->
+  <div id="pdf-export-wrapper">
+    <div id="harvard-pdf-template" class="harvard-cv">
+      <header class="hv-header">
+        <h1 class="hv-name">ALEX MORGAN</h1>
+        <p class="hv-contact">
+          Mérida, México | +52 (999) 123-4567 | alex.morgan@email.com | linkedin.com/in/alexmorgan | github.com/alexmorgan
+        </p>
+      </header>
+
+      <section class="hv-section">
+        <h2 class="hv-title">RESUMEN PROFESIONAL</h2>
+        <p class="hv-text">
+          Desarrollador Web Full Stack con más de 5 años de experiencia en el diseño y arquitectura de aplicaciones web interactivas y escalables. Especializado en JavaScript/TypeScript, React, Node.js y optimización de interfaces UI/UX. Enfocado en la entrega de productos digitales de alto impacto visual y funcional.
+        </p>
+      </section>
+
+      <section class="hv-section">
+        <h2 class="hv-title">EXPERIENCIA LABORAL</h2>
+        
+        <div class="hv-item">
+          <div class="hv-row">
+            <span class="hv-bold">Tech Innovators Inc.</span>
+            <span class="hv-right hv-bold">Mérida, México</span>
+          </div>
+          <div class="hv-row">
+            <span class="hv-italic">Senior Frontend Developer</span>
+            <span class="hv-right hv-italic">2023 – Presente</span>
+          </div>
+          <ul class="hv-list">
+            <li>Lideré el rediseño de la plataforma web principal, incrementando el rendimiento de carga en un 40% y mejorando la tasa de conversión en un 25%.</li>
+            <li>Implementé arquitecturas modulares en React y Tailwind CSS para sistemas de diseño corporativos.</li>
+            <li>Supervisé y mentoricé a un equipo de 5 desarrolladores juniors en mejores prácticas de desarrollo web frontend.</li>
+          </ul>
+        </div>
+
+        <div class="hv-item">
+          <div class="hv-row">
+            <span class="hv-bold">Digital Craft Studio</span>
+            <span class="hv-right hv-bold">Ciudad de México, México</span>
+          </div>
+          <div class="hv-row">
+            <span class="hv-italic">Full Stack Web Developer</span>
+            <span class="hv-right hv-italic">2021 – 2023</span>
+          </div>
+          <ul class="hv-list">
+            <li>Desarrollé e integré servicios API RESTful con Node.js y Express para aplicaciones cliente con más de 100,000 usuarios activos.</li>
+            <li>Colaboré directamente con equipos de diseño UX/UI para transformar prototipos en aplicaciones totalmente interactivas y accesibles.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="hv-section">
+        <h2 class="hv-title">EDUCACIÓN</h2>
+        <div class="hv-item">
+          <div class="hv-row">
+            <span class="hv-bold">Universidad Nacional Autónoma de México (UNAM)</span>
+            <span class="hv-right hv-bold">CDMX, México</span>
+          </div>
+          <div class="hv-row">
+            <span class="hv-italic">Licenciatura en Ciencias de la Computación</span>
+            <span class="hv-right hv-italic">2016 – 2020</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="hv-section">
+        <h2 class="hv-title">HABILIDADES TÉCNICAS</h2>
+        <p class="hv-text">
+          <span class="hv-bold">Lenguajes de Programación:</span> JavaScript (ES6+), TypeScript, HTML5, CSS3/SASS, SQL.<br>
+          <span class="hv-bold">Frameworks & Librerías:</span> React, Next.js, Node.js, Express, Tailwind CSS.<br>
+          <span class="hv-bold">Herramientas & Tecnologías:</span> Git, GitHub, Docker, REST APIs, Webpack, Figma.
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
